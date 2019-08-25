@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+
+  db:
+      image: mariadb
+      container_name: my_mariadb
+      environment:
+          - MYSQL_ROOT_PASSWORD=testroot
+      networks:
+        myPrvNet:
+          ipv4_address: 172.18.0.200
+      volumes:
+          - ./database:/var/lib/mysql
+
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: my_phpmyadmin
+      environment:
+          - PMA_HOST=db
+      restart: always
+      ports:
+          - 8080:80
+      networks:
+        myPrvNet:
+          ipv4_address: 172.18.0.100
+      volumes:
+          - /sessions
+      links:
+          - db
+          
+networks:
+  default:
+    external:
+      name: myPrvNet
+  myPrvNet:
+    external: true
+
