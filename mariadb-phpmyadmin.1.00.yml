@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+
+  db:
+      image: mariadb
+      container_name: my_mariadb
+      environment:
+          - MYSQL_ROOT_PASSWORD=testroot
+      volumes:
+          - ./database:/var/lib/mysql
+
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: my_phpmyadmin
+      environment:
+          - PMA_HOST=db
+      restart: always
+      ports:
+          - 8080:80
+      volumes:
+          - /sessions
+      links:
+          - db
+networks:
+  default:
+
