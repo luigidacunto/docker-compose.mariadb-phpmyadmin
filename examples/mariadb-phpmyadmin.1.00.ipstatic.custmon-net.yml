@@ -35,4 +35,3 @@ networks:
       name: myPrvNet
   myPrvNet:
     external: true
-
